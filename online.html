@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adliya Smart Navbat Ultra Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:
+radial-gradient(circle at top left,#1d70b8,#0b3c5d 45%),
+linear-gradient(135deg,#07121f,#0b3c5d);
+min-height:100vh;
+overflow-x:hidden;
+color:white;
+transition:0.5s;
+}
+
+/* LOADER */
+
+.loader{
+position:fixed;
+inset:0;
+background:#07121f;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+animation:hideLoader 1s forwards;
+animation-delay:2s;
+}
+
+.loader-circle{
+width:90px;
+height:90px;
+border:8px solid rgba(255,255,255,0.2);
+border-top:8px solid #ffd369;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
+}
+
+@keyframes hideLoader{
+to{
+opacity:0;
+visibility:hidden;
+}
+}
+
+/* BG */
+
+.blur1{
+position:absolute;
+width:350px;
+height:350px;
+background:rgba(255,255,255,0.08);
+border-radius:50%;
+top:-120px;
+left:-100px;
+filter:blur(20px);
+}
+
+.blur2{
+position:absolute;
+width:300px;
+height:300px;
+background:rgba(255,255,255,0.05);
+border-radius:50%;
+bottom:-100px;
+right:-50px;
+filter:blur(20px);
+}
+
+/* NAVBAR */
+
+.navbar{
+width:100%;
+padding:25px 70px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:relative;
+z-index:10;
+}
+
+.logo{
+font-size:30px;
+font-weight:700;
+}
+
+.nav-links{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+.nav-links a:hover{
+color:#ffd369;
+}
+
+/* THEME */
+
+.theme-btn{
+position:fixed;
+top:20px;
+right:20px;
+width:60px;
+height:60px;
+border:none;
+border-radius:50%;
+background:linear-gradient(135deg,#ffd369,#ffb703);
+font-size:24px;
+cursor:pointer;
+z-index:999;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+margin-top:50px;
+position:relative;
+z-index:5;
+padding:20px;
+}
+
+.hero h1{
+font-size:60px;
+line-height:1.2;
+}
+
+.hero p{
+margin-top:18px;
+opacity:0.85;
+font-size:18px;
+}
+
+.hero button{
+margin-top:30px;
+padding:16px 40px;
+border:none;
+border-radius:50px;
+background:linear-gradient(135deg,#ffd369,#ffb703);
+color:#111;
+font-weight:700;
+cursor:pointer;
+transition:0.4s;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.hero button:hover{
+transform:translateY(-5px) scale(1.03);
+}
+
+/* CLOCK */
+
+.clock{
+margin-top:25px;
+display:inline-block;
+padding:15px 25px;
+border-radius:16px;
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(15px);
+font-size:22px;
+font-weight:600;
+}
+
+/* WELCOME */
+
+.welcome{
+width:90%;
+margin:50px auto;
+background:rgba(255,255,255,0.1);
+padding:35px;
+border-radius:28px;
+backdrop-filter:blur(20px);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:30px;
+}
+
+.welcome button{
+padding:15px 30px;
+border:none;
+border-radius:16px;
+background:linear-gradient(135deg,#ffd369,#ffb703);
+font-weight:700;
+cursor:pointer;
+}
+
+/* SERVICES */
+
+.services{
+width:90%;
+margin:50px auto;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:25px;
+}
+
+.service-card{
+background:rgba(255,255,255,0.1);
+padding:30px;
+border-radius:24px;
+backdrop-filter:blur(20px);
+transition:0.4s;
+text-align:center;
+}
+
+.service-card:hover{
+transform:translateY(-10px);
+}
+
+.service-icon{
+font-size:42px;
+margin-bottom:15px;
+}
+
+/* MAIN */
+
+.container{
+width:90%;
+margin:70px auto;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:35px;
+position:relative;
+z-index:5;
+}
+
+.card{
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(20px);
+border-radius:28px;
+padding:35px;
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card h2{
+margin-bottom:20px;
+font-size:28px;
+}
+
+/* INPUT */
+
+.input-group{
+margin-top:18px;
+}
+
+.input-group label{
+display:block;
+margin-bottom:8px;
+font-size:14px;
+}
+
+.input-group input,
+.input-group select{
+width:100%;
+padding:15px;
+border:none;
+outline:none;
+border-radius:14px;
+background:rgba(255,255,255,0.15);
+color:white;
+font-size:15px;
+}
+
+.input-group input::placeholder{
+color:#ddd;
+}
+
+.input-group select option{
+color:black;
+}
+
+/* BUTTON */
+
+.submit-btn{
+width:100%;
+padding:16px;
+border:none;
+margin-top:28px;
+border-radius:16px;
+background:linear-gradient(135deg,#ffd369,#ffb703);
+color:#111;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+transition:0.4s;
+}
+
+.submit-btn:hover{
+transform:scale(1.02);
+}
+
+/* SEARCH */
+
+.search{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+margin-bottom:20px;
+background:rgba(255,255,255,0.15);
+color:white;
+outline:none;
+}
+
+/* BOOKING */
+
+.booking{
+background:rgba(255,255,255,0.12);
+border-left:5px solid #ffd369;
+padding:18px;
+margin-top:18px;
+border-radius:16px;
+position:relative;
+animation:fade 0.4s ease;
+}
+
+.booking h3{
+margin-bottom:8px;
+}
+
+.queue-number{
+position:absolute;
+top:15px;
+right:15px;
+background:#ffd369;
+color:#111;
+padding:8px 12px;
+border-radius:10px;
+font-weight:700;
+}
+
+.status{
+display:inline-block;
+margin-top:10px;
+padding:7px 14px;
+border-radius:30px;
+background:#22c55e;
+font-size:13px;
+}
+
+.delete-btn{
+margin-top:12px;
+background:#ff4d6d;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:10px;
+cursor:pointer;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* STATS */
+
+.stats{
+width:90%;
+margin:20px auto 80px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:25px;
+}
+
+.stat-box{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(20px);
+border-radius:24px;
+padding:30px;
+text-align:center;
+}
+
+.stat-box h3{
+font-size:38px;
+color:#ffd369;
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+right:30px;
+bottom:30px;
+background:#22c55e;
+color:white;
+padding:16px 24px;
+border-radius:14px;
+display:none;
+z-index:999;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:30px;
+opacity:0.7;
+}
+
+/* FLOAT BTN */
+
+.float-btn{
+position:fixed;
+bottom:30px;
+left:30px;
+width:65px;
+height:65px;
+border:none;
+border-radius:50%;
+background:linear-gradient(135deg,#ffd369,#ffb703);
+font-size:30px;
+cursor:pointer;
+z-index:999;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+.container{
+grid-template-columns:1fr;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+.services{
+grid-template-columns:1fr 1fr;
+}
+
+.welcome{
+flex-direction:column;
+text-align:center;
+}
+
+.hero h1{
+font-size:42px;
+}
+
+.navbar{
+flex-direction:column;
+gap:20px;
+}
+
+}
+
+@media(max-width:600px){
+
+.stats{
+grid-template-columns:1fr;
+}
+
+.services{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:34px;
+}
+
+.navbar{
+padding:20px;
+}
+
+.container{
+width:95%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="loader">
+<div class="loader-circle"></div>
+</div>
+
+<div class="blur1"></div>
+<div class="blur2"></div>
+
+<button class="theme-btn" onclick="toggleTheme()">🌙</button>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="logo">
+Adliya Smart
+</div>
+
+<ul class="nav-links">
+<li><a href="#">Bosh sahifa</a></li>
+<li><a href="#">Xizmatlar</a></li>
+<li><a href="#">Navbatlar</a></li>
+<li><a href="#">Aloqa</a></li>
+</ul>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1>
+Elektron Navbat Tizimi
+</h1>
+
+<p>
+Adliya xizmatlari uchun zamonaviy va professional platforma
+</p>
+
+<button onclick="scrollToForm()">
+Navbat olish
+</button>
+
+<div class="clock" id="clock">
+00:00:00
+</div>
+
+</section>
+
+<!-- WELCOME -->
+
+<section class="welcome">
+
+<div>
+<h2>Xush kelibsiz 👋</h2>
+<p>
+Elektron navbat orqali xizmatlarni tez va qulay boshqaring
+</p>
+</div>
+
+<button onclick="scrollToForm()">
+Boshlash
+</button>
+
+</section>
+
+<!-- SERVICES -->
+
+<section class="services">
+
+<div class="service-card">
+<div class="service-icon">⚖️</div>
+<h3>Notarius</h3>
+<p>Hujjatlarni rasmiylashtirish</p>
+</div>
+
+<div class="service-card">
+<div class="service-icon">🛂</div>
+<h3>Pasport</h3>
+<p>ID va pasport xizmatlari</p>
+</div>
+
+<div class="service-card">
+<div class="service-icon">📑</div>
+<h3>Ro‘yxat</h3>
+<p>Davlat ro‘yxatidan o‘tish</p>
+</div>
+
+<div class="service-card">
+<div class="service-icon">👨‍⚖️</div>
+<h3>Yuridik</h3>
+<p>Yuridik maslahatlar</p>
+</div>
+
+</section>
+
+<!-- MAIN -->
+
+<div class="container">
+
+<!-- FORM -->
+
+<div class="card" id="formSection">
+
+<h2>Navbat olish</h2>
+
+<div class="input-group">
+<label>F.I.O</label>
+<input type="text" id="fullname" placeholder="Ismingizni kiriting">
+</div>
+
+<div class="input-group">
+<label>Xizmat turi</label>
+<select id="service">
+<option>Notarius xizmatlari</option>
+<option>Pasport xizmatlari</option>
+<option>Davlat ro‘yxati</option>
+<option>Yuridik maslahat</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Sana</label>
+<input type="date" id="date">
+</div>
+
+<div class="input-group">
+<label>Vaqt</label>
+<input type="time" id="time">
+</div>
+
+<button class="submit-btn" onclick="addQueue()">
+Navbatni tasdiqlash
+</button>
+
+</div>
+
+<!-- BOOKINGS -->
+
+<div class="card">
+
+<h2>Mening navbatlarim</h2>
+
+<input type="text"
+placeholder="Qidirish..."
+class="search"
+id="searchInput"
+onkeyup="searchQueues()">
+
+<div id="queueList"></div>
+
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<section class="stats">
+
+<div class="stat-box">
+<h3 id="totalQueues">0</h3>
+<p>Navbatlar</p>
+</div>
+
+<div class="stat-box">
+<h3>24/7</h3>
+<p>Xizmat</p>
+</div>
+
+<div class="stat-box">
+<h3>15K+</h3>
+<p>Foydalanuvchilar</p>
+</div>
+
+<div class="stat-box">
+<h3>99%</h3>
+<p>Mamnunlik</p>
+</div>
+
+</section>
+
+<div class="toast" id="toast">
+Navbat muvaffaqiyatli olindi
+</div>
+
+<button class="float-btn"
+onclick="scrollToForm()">
++
+</button>
+
+<footer>
+© 2026 Adliya Smart Navbat Tizimi
+</footer>
+
+<script>
+
+let queues =
+JSON.parse(localStorage.getItem("queues")) || [];
+
+function scrollToForm(){
+document.getElementById("formSection")
+.scrollIntoView({behavior:"smooth"});
+}
+
+function saveQueues(){
+localStorage.setItem(
+"queues",
+JSON.stringify(queues)
+);
+}
+
+function showToast(text){
+
+const toast =
+document.getElementById("toast");
+
+toast.innerText = text;
+toast.style.display = "block";
+
+setTimeout(()=>{
+toast.style.display = "none";
+},2500);
+
+}
+
+function renderQueues(){
+
+const list =
+document.getElementById("queueList");
+
+list.innerHTML = "";
+
+queues.forEach((queue,index)=>{
+
+const div = document.createElement("div");
+
+div.className = "booking";
+
+div.innerHTML = `
+
+<div class="queue-number">
+#${index+1}
+</div>
+
+<h3>${queue.service}</h3>
+
+<p><strong>F.I.O:</strong>
+${queue.name}</p>
+
+<p><strong>Sana:</strong>
+${queue.date}</p>
+
+<p><strong>Vaqt:</strong>
+${queue.time}</p>
+
+<div class="status">
+Tasdiqlangan
+</div>
+
+<br>
+
+<button class="delete-btn"
+onclick="deleteQueue(${index})">
+
+Bekor qilish
+
+</button>
+
+`;
+
+list.appendChild(div);
+
+});
+
+document.getElementById("totalQueues")
+.innerText = queues.length;
+
+}
+
+function addQueue(){
+
+const name =
+document.getElementById("fullname").value;
+
+const service =
+document.getElementById("service").value;
+
+const date =
+document.getElementById("date").value;
+
+const time =
+document.getElementById("time").value;
+
+if(name === "" || date === "" || time === ""){
+showToast("Ma'lumotlarni to‘ldiring");
+return;
+}
+
+const exists = queues.find(q =>
+
+q.service === service &&
+q.date === date &&
+q.time === time
+
+);
+
+if(exists){
+showToast("Bu vaqt band qilingan");
+return;
+}
+
+queues.push({
+name,
+service,
+date,
+time
+});
+
+saveQueues();
+
+renderQueues();
+
+showToast("Navbat muvaffaqiyatli olindi");
+
+document.getElementById("fullname").value="";
+document.getElementById("date").value="";
+document.getElementById("time").value="";
+
+}
+
+function deleteQueue(index){
+
+queues.splice(index,1);
+
+saveQueues();
+
+renderQueues();
+
+showToast("Navbat bekor qilindi");
+
+}
+
+function searchQueues(){
+
+const value =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const bookings =
+document.querySelectorAll(".booking");
+
+bookings.forEach(item=>{
+
+if(item.innerText
+.toLowerCase()
+.includes(value)){
+
+item.style.display = "block";
+
+}else{
+
+item.style.display = "none";
+
+}
+
+});
+
+}
+
+/* CLOCK */
+
+function updateClock(){
+
+const now = new Date();
+
+let h =
+String(now.getHours()).padStart(2,"0");
+
+let m =
+String(now.getMinutes()).padStart(2,"0");
+
+let s =
+String(now.getSeconds()).padStart(2,"0");
+
+document.getElementById("clock")
+.innerText = `${h}:${m}:${s}`;
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* THEME */
+
+let dark = true;
+
+function toggleTheme(){
+
+if(dark){
+
+document.body.style.background =
+"linear-gradient(135deg,#dbeafe,#bfdbfe)";
+
+document.body.style.color = "#111";
+
+dark = false;
+
+}else{
+
+document.body.style.background =
+"radial-gradient(circle at top left,#1d70b8,#0b3c5d 45%), linear-gradient(135deg,#07121f,#0b3c5d)";
+
+document.body.style.color = "white";
+
+dark = true;
+
+}
+
+}
+
+renderQueues();
+
+</script>
+
+</body>
+</html>
