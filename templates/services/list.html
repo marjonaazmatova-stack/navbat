@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Xizmatlar — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Sarlavha -->
+    <div class="mb-10">
+        <nav class="flex items-center gap-2 text-sm text-slate-500 mb-3">
+            <a href="{% url 'home' %}" class="hover:text-brand-600">Bosh sahifa</a>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+            <span class="text-slate-700">Xizmatlar</span>
+        </nav>
+        <h1 class="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+            Barcha xizmatlar
+        </h1>
+        <p class="text-slate-600">Quyidagi yo'nalishlar bo'yicha navbat olishingiz mumkin</p>
+    </div>
+
+    {% if services %}
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for service in services %}
+                <a href="{% url 'service_detail' service.id %}"
+                   class="group block p-6 bg-white rounded-2xl border border-slate-200 hover:border-brand-300 hover:shadow-lg transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-{{ service.color }}-100 rounded-xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            {{ service.icon }}
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full">
+                            {{ service.duration_minutes }} daq
+                        </span>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 mb-2 group-hover:text-brand-600 transition-colors">
+                        {{ service.name }}
+                    </h3>
+                    <p class="text-sm text-slate-500 line-clamp-2 mb-4">
+                        {{ service.description|default:"Onlayn navbat olish mumkin" }}
+                    </p>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-500">
+                            {{ service.doctor_count }} ta mutaxassis
+                        </span>
+                        <span class="text-brand-600 font-semibold group-hover:translate-x-1 transition-transform">
+                            Tanlash →
+                        </span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-slate-200">
+            <div class="text-5xl mb-3">📭</div>
+            <p class="text-slate-500">Hozircha xizmatlar qo'shilmagan</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

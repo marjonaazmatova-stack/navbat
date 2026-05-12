@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Kirish — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="min-h-[calc(100vh-200px)] flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8">
+            <div class="text-center mb-8">
+                <div class="inline-flex w-14 h-14 bg-brand-100 rounded-2xl items-center justify-center text-3xl mb-4">
+                    🔐
+                </div>
+                <h1 class="font-display text-2xl font-bold text-slate-900 mb-2">Tizimga kirish</h1>
+                <p class="text-sm text-slate-600">Davom etish uchun ma'lumotlaringizni kiriting</p>
+            </div>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-xl">
+                        {{ form.non_field_errors.0 }}
+                    </div>
+                {% endif %}
+
+                <div>
+                    <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-slate-700 mb-1.5">
+                        {{ form.phone.label }}
+                    </label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                        <p class="text-xs text-rose-600 mt-1">{{ form.phone.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-slate-700 mb-1.5">
+                        {{ form.password.label }}
+                    </label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <p class="text-xs text-rose-600 mt-1">{{ form.password.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-md shadow-brand-500/20 transition-all">
+                    Kirish
+                </button>
+            </form>
+
+            <p class="text-center text-sm text-slate-600 mt-6">
+                Hisobingiz yo'qmi?
+                <a href="{% url 'register' %}" class="text-brand-600 hover:text-brand-700 font-semibold">
+                    Ro'yxatdan o'ting
+                </a>
+            </p>
+        </div>
+
+        <p class="text-center text-xs text-slate-500 mt-6">
+            Test uchun: <code class="px-2 py-0.5 bg-slate-100 rounded">+998901234567</code> / <code class="px-2 py-0.5 bg-slate-100 rounded">test1234</code>
+        </p>
+    </div>
+</div>
+{% endblock %}

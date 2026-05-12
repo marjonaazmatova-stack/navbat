@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ SITE_NAME }} — Onlayn navbat tizimi{% endblock %}</title>
+    <meta name="description" content="Poliklinika va davlat xizmatlari uchun onlayn navbat tizimi. Tirbandlikni unutung!">
+
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'system-ui', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'Manrope', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50:  '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': {opacity: 0}, '100%': {opacity: 1} },
+                        slideUp: {
+                            '0%': {opacity: 0, transform: 'translateY(10px)'},
+                            '100%': {opacity: 1, transform: 'translateY(0)'}
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!-- Favicon (emoji) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col">
+
+    {% block navbar %}
+        {% include 'partials/navbar.html' %}
+    {% endblock %}
+
+    {# Xabarlar #}
+    {% if messages %}
+        <div class="fixed top-20 right-4 z-50 space-y-2 max-w-md w-full sm:w-auto">
+            {% for message in messages %}
+                <div class="flex items-start gap-3 px-4 py-3 rounded-xl border shadow-lg animate-slide-up {{ message.tags }}"
+                     role="alert"
+                     data-toast>
+                    <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="flex-1 text-sm font-medium">{{ message }}</span>
+                    <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+        <script>
+            // 5 soniyadan keyin avto-yashirish
+            setTimeout(() => {
+                document.querySelectorAll('[data-toast]').forEach(t => {
+                    t.style.transition = 'opacity 0.5s';
+                    t.style.opacity = '0';
+                    setTimeout(() => t.remove(), 500);
+                });
+            }, 5000);
+        </script>
+    {% endif %}
+
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block footer %}
+        {% include 'partials/footer.html' %}
+    {% endblock %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

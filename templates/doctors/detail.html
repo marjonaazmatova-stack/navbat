@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ doctor.full_name }} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-slate-500 mb-6">
+        <a href="{% url 'home' %}" class="hover:text-brand-600">Bosh sahifa</a>
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+        <a href="{% url 'service_detail' doctor.service.id %}" class="hover:text-brand-600">{{ doctor.service.name }}</a>
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+        <span class="text-slate-700 truncate">{{ doctor.full_name }}</span>
+    </nav>
+
+    <!-- Qadamlar -->
+    <div class="flex items-center gap-2 mb-8 text-sm">
+        <div class="flex items-center gap-2 text-brand-600 font-semibold">
+            <div class="w-7 h-7 bg-brand-600 text-white rounded-full flex items-center justify-center text-xs">✓</div>
+            <span>Mutaxassis tanlandi</span>
+        </div>
+        <div class="flex-1 h-px bg-brand-200"></div>
+        <div class="flex items-center gap-2 text-brand-600 font-semibold">
+            <div class="w-7 h-7 bg-brand-600 text-white rounded-full flex items-center justify-center text-xs">2</div>
+            <span class="hidden sm:inline">Sana</span>
+        </div>
+        <div class="flex-1 h-px bg-slate-200"></div>
+        <div class="flex items-center gap-2 text-slate-400">
+            <div class="w-7 h-7 bg-slate-200 text-slate-500 rounded-full flex items-center justify-center text-xs">3</div>
+            <span class="hidden sm:inline">Vaqt</span>
+        </div>
+    </div>
+
+    <!-- Shifokor karta -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-6 mb-8">
+        <div class="flex items-start gap-5">
+            {% if doctor.photo %}
+                <img src="{{ doctor.photo.url }}" alt="{{ doctor.full_name }}"
+                     class="w-20 h-20 rounded-2xl object-cover flex-shrink-0">
+            {% else %}
+                <div class="w-20 h-20 bg-gradient-to-br from-brand-500 to-brand-700 text-white text-2xl font-bold rounded-2xl flex items-center justify-center flex-shrink-0">
+                    {{ doctor.initials }}
+                </div>
+            {% endif %}
+            <div class="flex-1">
+                <h1 class="font-display text-2xl font-bold text-slate-900 mb-1">
+                    {{ doctor.full_name }}
+                </h1>
+                <p class="text-slate-600 mb-3">{{ doctor.specialty }}</p>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-full">
+                        Kabinet {{ doctor.cabinet_number }}
+                    </span>
+                    {% if doctor.experience_years %}
+                    <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full">
+                        {{ doctor.experience_years }} yil tajriba
+                    </span>
+                    {% endif %}
+                    <span class="px-2.5 py-1 bg-brand-100 text-brand-700 rounded-full">
+                        {{ doctor.service.icon }} {{ doctor.service.name }}
+                    </span>
+                </div>
+                {% if doctor.bio %}
+                <p class="text-sm text-slate-600 mt-3">{{ doctor.bio }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sana tanlash -->
+    <h2 class="font-display text-xl font-bold text-slate-900 mb-4">Sanani tanlang</h2>
+    <p class="text-sm text-slate-600 mb-6">
+        Mavjud kunlardan birini tanlang. Kulrang kunlar — ish kuni emas yoki bayram.
+    </p>
+
+    <div class="grid grid-cols-4 sm:grid-cols-7 gap-2 sm:gap-3">
+        {% for d in upcoming_dates %}
+            {% if d.is_working_day and not d.is_holiday %}
+                <a href="{% url 'select_time' doctor.id %}?date={{ d.iso }}"
+                   class="block p-3 sm:p-4 bg-white border border-slate-200 hover:border-brand-400 hover:shadow-md text-center rounded-xl transition-all group">
+                    <div class="text-xs font-medium text-slate-500 mb-1">{{ d.weekday }}</div>
+                    <div class="text-xl sm:text-2xl font-display font-bold text-slate-900 group-hover:text-brand-600">{{ d.day }}</div>
+                    <div class="text-xs text-slate-500">{{ d.month }}</div>
+                    {% if d.is_today %}
+                        <div class="text-[10px] text-brand-600 font-semibold mt-1">Bugun</div>
+                    {% endif %}
+                </a>
+            {% else %}
+                <div class="block p-3 sm:p-4 bg-slate-50 border border-slate-100 text-center rounded-xl opacity-50 cursor-not-allowed"
+                     title="{% if d.is_holiday %}Bayram{% else %}Dam olish{% endif %}">
+                    <div class="text-xs font-medium text-slate-400 mb-1">{{ d.weekday }}</div>
+                    <div class="text-xl sm:text-2xl font-display font-bold text-slate-400">{{ d.day }}</div>
+                    <div class="text-xs text-slate-400">{{ d.month }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Ish jadvali -->
+    <div class="mt-10 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+        <h3 class="font-display font-bold text-base text-slate-900 mb-4">
+            Ish jadvali
+        </h3>
+        <div class="grid sm:grid-cols-2 gap-3 text-sm">
+            {% for wh in doctor.working_hours.all %}
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg">
+                    <span class="font-medium text-slate-700">{{ wh.get_weekday_display }}</span>
+                    <span class="text-slate-600">
+                        {{ wh.start_time|time:"H:i" }} – {{ wh.end_time|time:"H:i" }}
+                        {% if wh.break_start %}
+                            <span class="text-xs text-slate-400 ml-1">(tushlik {{ wh.break_start|time:"H:i" }})</span>
+                        {% endif %}
+                    </span>
+                </div>
+            {% empty %}
+                <p class="text-slate-500 col-span-2">Ish jadvali belgilanmagan</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

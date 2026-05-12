@@ -1,0 +1,238 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$placeholder$placeholder=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-01-01T00:00:00Z",
+      "phone": "+998901111111",
+      "full_name": "Super Admin",
+      "role": "admin",
+      "email": "admin@navbathub.uz"
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$placeholder$placeholder=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "operator",
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-01-01T00:00:00Z",
+      "phone": "+998902222222",
+      "full_name": "Karimova Dilnoza",
+      "role": "operator",
+      "email": null
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$placeholder$placeholder=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": null,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-01-01T00:00:00Z",
+      "phone": "+998901234567",
+      "full_name": "Aliyev Vali Salimovich",
+      "role": "user",
+      "email": null
+    }
+  },
+
+  {
+    "model": "queue.service",
+    "pk": 1,
+    "fields": {
+      "name": "Terapevt qabuli",
+      "description": "Umumiy shifokor ko'rigi va dastlabki tashxis",
+      "duration_minutes": 15,
+      "icon": "🩺",
+      "color": "blue",
+      "is_active": true,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "queue.service",
+    "pk": 2,
+    "fields": {
+      "name": "Stomatolog",
+      "description": "Tish davolash, profilaktika va konsultatsiya",
+      "duration_minutes": 30,
+      "icon": "🦷",
+      "color": "cyan",
+      "is_active": true,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "queue.service",
+    "pk": 3,
+    "fields": {
+      "name": "Hujjat olish",
+      "description": "Tibbiy ma'lumotnoma, retsept va boshqa hujjatlarni rasmiylashtirish",
+      "duration_minutes": 10,
+      "icon": "📋",
+      "color": "amber",
+      "is_active": true,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "queue.service",
+    "pk": 4,
+    "fields": {
+      "name": "Kardiolog",
+      "description": "Yurak-qon tomir kasalliklari mutaxassisi",
+      "duration_minutes": 20,
+      "icon": "❤️",
+      "color": "rose",
+      "is_active": true,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+
+  {
+    "model": "queue.doctor",
+    "pk": 1,
+    "fields": {
+      "full_name": "Rahmonov Bobur Akmalovich",
+      "specialty": "Terapevt, oliy toifa",
+      "service": 1,
+      "cabinet_number": "12",
+      "photo": "",
+      "bio": "20 yillik tajribaga ega umumiy shifokor. Ichki kasalliklar va profilaktika bo'yicha mutaxassis.",
+      "experience_years": 20,
+      "is_active": true
+    }
+  },
+  {
+    "model": "queue.doctor",
+    "pk": 2,
+    "fields": {
+      "full_name": "Yusupova Nargiza Olimovna",
+      "specialty": "Terapevt",
+      "service": 1,
+      "cabinet_number": "14",
+      "photo": "",
+      "bio": "Bemorlarga sabr va e'tibor bilan munosabatda bo'ladi.",
+      "experience_years": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "queue.doctor",
+    "pk": 3,
+    "fields": {
+      "full_name": "Karimov Sherzod Davlatovich",
+      "specialty": "Stomatolog-ortoped",
+      "service": 2,
+      "cabinet_number": "8",
+      "photo": "",
+      "bio": "Zamonaviy uskunalar bilan ishlaydi. Implantatsiya va estetik stomatologiya.",
+      "experience_years": 12,
+      "is_active": true
+    }
+  },
+  {
+    "model": "queue.doctor",
+    "pk": 4,
+    "fields": {
+      "full_name": "Toshpulatova Madina Erkinovna",
+      "specialty": "Qabul xodimi",
+      "service": 3,
+      "cabinet_number": "3",
+      "photo": "",
+      "bio": "Hujjatlar va ma'lumotnomalarni tez rasmiylashtiradi.",
+      "experience_years": 5,
+      "is_active": true
+    }
+  },
+  {
+    "model": "queue.doctor",
+    "pk": 5,
+    "fields": {
+      "full_name": "Ismoilov Sardor Botirovich",
+      "specialty": "Kardiolog, fan nomzodi",
+      "service": 4,
+      "cabinet_number": "20",
+      "photo": "",
+      "bio": "Yurak kasalliklari bo'yicha 15 yillik tajriba. EKG va EXOKG diagnostikasi.",
+      "experience_years": 15,
+      "is_active": true
+    }
+  },
+
+  {"model": "queue.workinghours", "pk": 1, "fields": {"doctor": 1, "weekday": 0, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 2, "fields": {"doctor": 1, "weekday": 1, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 3, "fields": {"doctor": 1, "weekday": 2, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 4, "fields": {"doctor": 1, "weekday": 3, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 5, "fields": {"doctor": 1, "weekday": 4, "start_time": "09:00:00", "end_time": "16:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+
+  {"model": "queue.workinghours", "pk": 6,  "fields": {"doctor": 2, "weekday": 0, "start_time": "08:00:00", "end_time": "15:00:00", "break_start": "12:00:00", "break_end": "13:00:00"}},
+  {"model": "queue.workinghours", "pk": 7,  "fields": {"doctor": 2, "weekday": 1, "start_time": "08:00:00", "end_time": "15:00:00", "break_start": "12:00:00", "break_end": "13:00:00"}},
+  {"model": "queue.workinghours", "pk": 8,  "fields": {"doctor": 2, "weekday": 2, "start_time": "08:00:00", "end_time": "15:00:00", "break_start": "12:00:00", "break_end": "13:00:00"}},
+  {"model": "queue.workinghours", "pk": 9,  "fields": {"doctor": 2, "weekday": 3, "start_time": "08:00:00", "end_time": "15:00:00", "break_start": "12:00:00", "break_end": "13:00:00"}},
+  {"model": "queue.workinghours", "pk": 10, "fields": {"doctor": 2, "weekday": 4, "start_time": "08:00:00", "end_time": "14:00:00", "break_start": "12:00:00", "break_end": "13:00:00"}},
+  {"model": "queue.workinghours", "pk": 11, "fields": {"doctor": 2, "weekday": 5, "start_time": "09:00:00", "end_time": "13:00:00", "break_start": null, "break_end": null}},
+
+  {"model": "queue.workinghours", "pk": 12, "fields": {"doctor": 3, "weekday": 0, "start_time": "09:00:00", "end_time": "18:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 13, "fields": {"doctor": 3, "weekday": 1, "start_time": "09:00:00", "end_time": "18:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 14, "fields": {"doctor": 3, "weekday": 2, "start_time": "09:00:00", "end_time": "18:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 15, "fields": {"doctor": 3, "weekday": 3, "start_time": "09:00:00", "end_time": "18:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 16, "fields": {"doctor": 3, "weekday": 4, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+
+  {"model": "queue.workinghours", "pk": 17, "fields": {"doctor": 4, "weekday": 0, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 18, "fields": {"doctor": 4, "weekday": 1, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 19, "fields": {"doctor": 4, "weekday": 2, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 20, "fields": {"doctor": 4, "weekday": 3, "start_time": "09:00:00", "end_time": "17:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+  {"model": "queue.workinghours", "pk": 21, "fields": {"doctor": 4, "weekday": 4, "start_time": "09:00:00", "end_time": "16:00:00", "break_start": "13:00:00", "break_end": "14:00:00"}},
+
+  {"model": "queue.workinghours", "pk": 22, "fields": {"doctor": 5, "weekday": 0, "start_time": "10:00:00", "end_time": "16:00:00", "break_start": null, "break_end": null}},
+  {"model": "queue.workinghours", "pk": 23, "fields": {"doctor": 5, "weekday": 2, "start_time": "10:00:00", "end_time": "16:00:00", "break_start": null, "break_end": null}},
+  {"model": "queue.workinghours", "pk": 24, "fields": {"doctor": 5, "weekday": 4, "start_time": "10:00:00", "end_time": "16:00:00", "break_start": null, "break_end": null}},
+
+  {
+    "model": "queue.holiday",
+    "pk": 1,
+    "fields": {"date": "2026-01-01", "description": "Yangi yil"}
+  },
+  {
+    "model": "queue.holiday",
+    "pk": 2,
+    "fields": {"date": "2026-03-08", "description": "Xalqaro xotin-qizlar kuni"}
+  },
+  {
+    "model": "queue.holiday",
+    "pk": 3,
+    "fields": {"date": "2026-03-21", "description": "Navro'z bayrami"}
+  },
+  {
+    "model": "queue.holiday",
+    "pk": 4,
+    "fields": {"date": "2026-05-09", "description": "Xotira va qadrlash kuni"}
+  },
+  {
+    "model": "queue.holiday",
+    "pk": 5,
+    "fields": {"date": "2026-09-01", "description": "Mustaqillik kuni"}
+  }
+]

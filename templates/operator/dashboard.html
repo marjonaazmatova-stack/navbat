@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Operator paneli — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Sarlavha -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full mb-2">
+                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                Operator paneli
+            </div>
+            <h1 class="font-display text-3xl font-bold text-slate-900">
+                Bugungi navbatlar
+            </h1>
+            <p class="text-sm text-slate-500 mt-1">{{ today|date:"l, j-F Y" }}</p>
+        </div>
+        <div class="flex gap-2">
+            <a href="{% url 'operator:queue_list' %}"
+               class="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                Navbatlar ro'yxati
+            </a>
+            <a href="{% url 'operator:display_board' %}"
+               class="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-xl shadow-sm transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                Tablo
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistika -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5">
+            <div class="text-3xl font-display font-bold text-slate-900">{{ stats.total }}</div>
+            <div class="text-xs text-slate-500 mt-1">Jami</div>
+        </div>
+        <div class="bg-blue-50 rounded-2xl border border-blue-100 p-5">
+            <div class="text-3xl font-display font-bold text-blue-700">{{ stats.pending }}</div>
+            <div class="text-xs text-blue-600 mt-1">Kutilmoqda</div>
+        </div>
+        <div class="bg-amber-50 rounded-2xl border border-amber-100 p-5">
+            <div class="text-3xl font-display font-bold text-amber-700">{{ stats.called }}</div>
+            <div class="text-xs text-amber-600 mt-1">Chaqirildi</div>
+        </div>
+        <div class="bg-emerald-50 rounded-2xl border border-emerald-100 p-5">
+            <div class="text-3xl font-display font-bold text-emerald-700">{{ stats.completed }}</div>
+            <div class="text-xs text-emerald-600 mt-1">Yakunlandi</div>
+        </div>
+        <div class="bg-rose-50 rounded-2xl border border-rose-100 p-5">
+            <div class="text-3xl font-display font-bold text-rose-700">{{ stats.no_show }}</div>
+            <div class="text-xs text-rose-600 mt-1">Kelmadi</div>
+        </div>
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5">
+            <div class="text-3xl font-display font-bold text-slate-700">{{ stats.cancelled }}</div>
+            <div class="text-xs text-slate-500 mt-1">Bekor qilindi</div>
+        </div>
+    </div>
+
+    <!-- Bugun ishlayotgan shifokorlar -->
+    <h2 class="font-display text-xl font-bold text-slate-900 mb-4">
+        Bugun navbat olinganlar
+    </h2>
+
+    {% if doctors %}
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for doctor in doctors %}
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-md transition-shadow">
+                    <div class="flex items-start gap-3 mb-4">
+                        {% if doctor.photo %}
+                            <img src="{{ doctor.photo.url }}" alt="" class="w-12 h-12 rounded-xl object-cover">
+                        {% else %}
+                            <div class="w-12 h-12 bg-gradient-to-br from-brand-500 to-brand-700 text-white text-sm font-bold rounded-xl flex items-center justify-center flex-shrink-0">
+                                {{ doctor.initials }}
+                            </div>
+                        {% endif %}
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-display font-bold text-slate-900 truncate">{{ doctor.full_name }}</h3>
+                            <p class="text-xs text-slate-500">{{ doctor.specialty }} • Kab. {{ doctor.cabinet_number }}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{% url 'operator:queue_list' %}?doctor={{ doctor.id }}"
+                           class="flex-1 text-center text-xs font-semibold px-3 py-2 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg transition-colors">
+                            Navbatlar
+                        </a>
+                        <a href="{% url 'operator:display_board' %}?doctor={{ doctor.id }}"
+                           target="_blank"
+                           class="flex-1 text-center text-xs font-semibold px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors">
+                            Tablo
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200">
+            <div class="text-5xl mb-3">🌤</div>
+            <p class="text-slate-500">Bugun hozircha navbat olinmagan</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

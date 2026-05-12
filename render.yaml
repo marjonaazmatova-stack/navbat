@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: navbat-hub
+    env: python
+    plan: free
+    region: frankfurt
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn navbat_hub.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: WEB_CONCURRENCY
+        value: "2"

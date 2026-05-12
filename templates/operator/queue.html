@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Bugungi navbatlar — Operator{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Sarlavha -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+            <nav class="flex items-center gap-2 text-sm text-slate-500 mb-2">
+                <a href="{% url 'operator:dashboard' %}" class="hover:text-brand-600">Operator</a>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-slate-700">Navbatlar</span>
+            </nav>
+            <h1 class="font-display text-3xl font-bold text-slate-900">
+                Bugungi navbatlar
+            </h1>
+            <p class="text-sm text-slate-500 mt-1">{{ today|date:"l, j-F Y" }}</p>
+        </div>
+    </div>
+
+    <!-- Shifokor filtri -->
+    {% if doctors %}
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 mb-6">
+            <div class="flex flex-wrap gap-2">
+                <a href="{% url 'operator:queue_list' %}"
+                   class="px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors
+                          {% if not selected_doctor %}bg-brand-600 text-white{% else %}bg-slate-100 text-slate-700 hover:bg-slate-200{% endif %}">
+                    Hammasi
+                </a>
+                {% for doctor in doctors %}
+                    <a href="?doctor={{ doctor.id }}"
+                       class="px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors
+                              {% if selected_doctor == doctor.id|stringformat:'s' %}bg-brand-600 text-white{% else %}bg-slate-100 text-slate-700 hover:bg-slate-200{% endif %}">
+                        {{ doctor.full_name|truncatechars:25 }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Navbatlar -->
+    {% if appointments %}
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-slate-50 border-b border-slate-200">
+                    <tr>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-slate-600 uppercase">#</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-slate-600 uppercase">Vaqt</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-slate-600 uppercase">Mijoz</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-slate-600 uppercase hidden md:table-cell">Shifokor</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-slate-600 uppercase">Holat</th>
+                        <th class="text-right px-4 py-3 text-xs font-semibold text-slate-600 uppercase">Amal</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for app in appointments %}
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-4 py-3">
+                                <span class="font-mono font-bold text-brand-600">#{{ app.queue_number }}</span>
+                            </td>
+                            <td class="px-4 py-3 font-mono text-sm text-slate-700">{{ app.time|time:"H:i" }}</td>
+                            <td class="px-4 py-3">
+                                <div class="font-medium text-slate-900 text-sm">{{ app.user.full_name }}</div>
+                                <div class="text-xs text-slate-500">{{ app.user.phone }}</div>
+                            </td>
+                            <td class="px-4 py-3 hidden md:table-cell">
+                                <div class="text-sm text-slate-700">{{ app.doctor.full_name|truncatechars:20 }}</div>
+                                <div class="text-xs text-slate-500">Kab. {{ app.doctor.cabinet_number }}</div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex text-xs font-semibold px-2.5 py-1 bg-{{ app.status_color }}-100 text-{{ app.status_color }}-700 rounded-full">
+                                    {{ app.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-right">
+                                {% if app.status == 'pending' %}
+                                    <div class="flex justify-end gap-1">
+                                        <form action="{% url 'operator:call_next' app.id %}" method="post" class="inline">
+                                            {% csrf_token %}
+                                            <button type="submit"
+                                                    class="text-xs px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition-colors">
+                                                Chaqirish
+                                            </button>
+                                        </form>
+                                        <form action="{% url 'operator:mark_no_show' app.id %}" method="post" class="inline"
+                                              onsubmit="return confirm('Kelmadi deb belgilashni tasdiqlaysizmi?')">
+                                            {% csrf_token %}
+                                            <button type="submit"
+                                                    class="text-xs px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold rounded-lg transition-colors">
+                                                Kelmadi
+                                            </button>
+                                        </form>
+                                    </div>
+                                {% elif app.status == 'called' %}
+                                    <form action="{% url 'operator:mark_completed' app.id %}" method="post" class="inline">
+                                        {% csrf_token %}
+                                        <button type="submit"
+                                                class="text-xs px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors">
+                                            Yakunlash
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <span class="text-xs text-slate-400">—</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200">
+            <div class="text-5xl mb-3">📋</div>
+            <p class="text-slate-500">Bugun navbatlar yo'q</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
